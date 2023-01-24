@@ -8,6 +8,9 @@
 #[cfg(feature = "std")]
 include!(concat!(env!("OUT_DIR"), "/wasm_binary.rs"));
 
+
+// these are the imports used in the runtime
+
 use bitcoin::types::H256Le;
 use currency::Amount;
 use frame_support::{
@@ -40,6 +43,7 @@ use sp_version::NativeVersion;
 use sp_version::RuntimeVersion;
 use traits::OracleApi;
 
+// marks the end of the imports now moving on to the exports
 // A few exports that help ease life for downstream crates.
 pub use frame_support::{
     construct_runtime,
@@ -108,6 +112,7 @@ pub mod token_distribution {
     pub const INITIAL_ALLOCATION: Balance = 10_000_000_u128 * UNITS;
 
     // multiplication is non-overflow by default
+    //Permill is a parts per million type
     pub const ESCROW_INFLATION_REWARDS: Permill = Permill::from_parts(67000); // 6.7%
     pub const TREASURY_INFLATION_REWARDS: Permill = Permill::from_parts(533000); // 53.3%
     pub const VAULT_INFLATION_REWARDS: Permill = Permill::from_percent(40); // 40%
@@ -122,6 +127,10 @@ pub fn native_version() -> NativeVersion {
     }
 }
 
+
+//What is the relationship between compute, block time and block weight?
+
+
 /// We assume that ~10% of the block weight is consumed by `on_initalize` handlers.
 /// This is used to limit the maximal weight of a single extrinsic.
 const AVERAGE_ON_INITIALIZE_RATIO: Perbill = Perbill::from_percent(10);
@@ -133,6 +142,8 @@ pub const MAXIMUM_BLOCK_WEIGHT: Weight = Weight::from_parts(
     WEIGHT_REF_TIME_PER_SECOND.saturating_div(2),
     cumulus_primitives_core::relay_chain::v2::MAX_POV_SIZE as u64,
 );
+
+//defining parameter_types
 parameter_types! {
     pub const BlockHashCount: BlockNumber = 250;
     pub const Version: RuntimeVersion = VERSION;
