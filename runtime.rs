@@ -199,6 +199,9 @@ impl Contains<RuntimeCall> for BaseCallFilter {
         }
     }
 }
+// configuration for the runtime
+// implements the frame_system::config for the runtime struct
+// from the frame_system crate
 
 impl frame_system::Config for Runtime {
     /// The identifier used to distinguish between accounts.
@@ -243,7 +246,7 @@ impl frame_system::Config for Runtime {
 parameter_types! {
     pub const UncleGenerations: u32 = 0;
 }
-
+// pallet is responsible for managing authorship of blocks in the runtime, it allows to set the finder of the author and the block uncle generations.
 impl pallet_authorship::Config for Runtime {
     type FindAuthor = pallet_session::FindAccountFromAuthorIndex<Self, Aura>;
     type UncleGenerations = UncleGenerations;
@@ -256,7 +259,8 @@ parameter_types! {
     pub const Offset: u32 = 0;
     pub const MaxAuthorities: u32 = 32;
 }
-
+// how we have moved on to configuring pallets for the runtime
+// it seems like the pallets are stored in crates
 impl pallet_session::Config for Runtime {
     type RuntimeEvent = RuntimeEvent;
     type ValidatorId = <Self as frame_system::Config>::AccountId;
@@ -283,6 +287,7 @@ parameter_types! {
 pub type CollatorSelectionUpdateOrigin =
     EitherOfDiverse<EnsureRoot<AccountId>, EnsureXcm<IsMajorityOfBody<ParentLocation, ExecutiveBody>>>;
 
+// process of selecting which collators will be responsible for creating and submitting blocks at a given point in time
 impl collator_selection::Config for Runtime {
     type RuntimeEvent = RuntimeEvent;
     type StakingCurrency = Escrow;
