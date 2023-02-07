@@ -259,7 +259,7 @@ parameter_types! {
     pub const Offset: u32 = 0;
     pub const MaxAuthorities: u32 = 32;
 }
-// how we have moved on to configuring pallets for the runtime
+// now we have moved on to configuring pallets for the runtime
 // it seems like the pallets are stored in crates
 impl pallet_session::Config for Runtime {
     type RuntimeEvent = RuntimeEvent;
